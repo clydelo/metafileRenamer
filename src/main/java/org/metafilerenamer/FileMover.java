@@ -13,11 +13,18 @@ import static org.metafilerenamer.Util.EXTENSIONS;
  * Copies all valid files with extension from input dir, iterating through subdirectories and copies all to output directory
  */
 public class FileMover {
-    private static final String INPUT_DIR = "c:/dev/in";
-    private static final String OUTPUT_DIR = "c:/dev/out";
+    private static String INPUT_DIR;
+    private static String OUTPUT_DIR;
     private static int counter = 0;
 
     public static void main(String[] args) {
+        if (args.length != 2) {
+            System.out.println("Usage: java FileMover <srcDir> <targetDir>");
+            return;
+        }
+        INPUT_DIR = args[0];
+        OUTPUT_DIR = args[1];
+
         File inputDir = new File(INPUT_DIR);
         if (!inputDir.exists() || !inputDir.isDirectory()) {
             System.out.println("Invalid input directory path.");
@@ -25,6 +32,7 @@ public class FileMover {
         }
 
         moveFiles(inputDir);
+        System.out.println("### moved " + counter + " files.");
     }
 
     private static void moveFiles(File dir) {
@@ -39,7 +47,6 @@ public class FileMover {
                 }
             }
         }
-        System.out.println("### moved " + counter + " files.");
     }
 
     private static void moveFileIfMatching(File file) {
